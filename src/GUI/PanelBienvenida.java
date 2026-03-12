@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author soloa
@@ -15,6 +17,14 @@ public class PanelBienvenida extends javax.swing.JFrame {
      */
     public PanelBienvenida() {
         initComponents();
+        setSize(950, 650);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
+        //para quitar un borde que traia el btn por defecto
+        btnIngresar.setFocusPainted(false);
+        btnIngresar.setBorderPainted(false);
+    
     }
 
     /**
@@ -26,21 +36,49 @@ public class PanelBienvenida extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        lblLogo = new javax.swing.JLabel();
+        lblEslogan = new javax.swing.JLabel();
+        btnIngresar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo_splash_envia_blanco.png"))); // NOI18N
+        getContentPane().add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 360, 200));
+
+        lblEslogan.setFont(new java.awt.Font("Arial", 2, 16)); // NOI18N
+        lblEslogan.setForeground(new java.awt.Color(245, 166, 35));
+        lblEslogan.setText("Tu paquete, nuestra prioridad.");
+        getContentPane().add(lblEslogan, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 340, -1, -1));
+
+        btnIngresar.setBackground(new java.awt.Color(245, 166, 35));
+        btnIngresar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnIngresar.setForeground(new java.awt.Color(11, 29, 58));
+        btnIngresar.setText("INGRESAR AL SISTEMA");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 450, 360, 50));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("SC-304 Estructuras de Datos | Universidad Fidélitas");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 560, -1, 30));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo_bienvenida_950.jpg"))); // NOI18N
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 650));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+       new PanelMenu().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +116,10 @@ public class PanelBienvenida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnIngresar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblEslogan;
+    private javax.swing.JLabel lblLogo;
     // End of variables declaration//GEN-END:variables
 }
