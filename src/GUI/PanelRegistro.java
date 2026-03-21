@@ -2,19 +2,36 @@
 package GUI;
 
 import javax.swing.ImageIcon;
-
+import estructuras.ListaEnlazada;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Paquete;
 /**
  *
  * @author soloa
  */
 public class PanelRegistro extends javax.swing.JFrame {
-
+    private ListaEnlazada lista = new ListaEnlazada();
+    private int codigoAuto = 1;
     /**
      * Creates new form PanelRegistro
      */
     public PanelRegistro() {
         initComponents();
+        tblPaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cargarCamposDesdeTabla();
+            }
+        });
         setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
+        
+        jcbTipoEnvio.removeAllItems();
+        jcbTipoEnvio.addItem("Estándar");
+        jcbTipoEnvio.addItem("Express");
+        jcbTipoEnvio.addItem("Internacional");
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblPaquetes.getModel();
+        modeloTabla.setRowCount(0);
         //para el color de columnas y filas de la tabla jtláquetes
         javax.swing.table.JTableHeader header = tblPaquetes.getTableHeader();
         header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
@@ -29,6 +46,40 @@ public class PanelRegistro extends javax.swing.JFrame {
            return this;
     }
 });
+    }
+    public void limpiarCampos() {
+    txtDescripcionPaquete.setText("");
+    jcbTipoEnvio.setSelectedIndex(0);
+    txtPeso.setText("");
+    txtDescripcionPaquete.requestFocus();
+}
+    
+    public void mostrarTabla() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblPaquetes.getModel();
+        modeloTabla.setRowCount(0);
+
+        for (int i = 0; i < lista.cantidad(); i++) {
+            Paquete p = lista.obtenerPorPosicion(i);
+
+            Object fila[] = new Object[5];
+            fila[0] = p.getCodigo();
+            fila[1] = p.getDescripcion();
+            fila[2] = p.getTipoEnvio();
+            fila[3] = p.getPeso();
+            fila[4] = p.getEstado();
+
+            modeloTabla.addRow(fila);
+        }
+    }
+    
+    public void cargarCamposDesdeTabla() {
+        int fila = tblPaquetes.getSelectedRow();
+
+        if (fila != -1) {
+            txtDescripcionPaquete.setText(tblPaquetes.getValueAt(fila, 1).toString());
+            jcbTipoEnvio.setSelectedItem(tblPaquetes.getValueAt(fila, 2).toString());
+            txtPeso.setText(tblPaquetes.getValueAt(fila, 3).toString());
+        }
     }
 
     /**
@@ -89,9 +140,7 @@ public class PanelRegistro extends javax.swing.JFrame {
         lblTextoDescripcion.setForeground(new java.awt.Color(11, 29, 58));
         lblTextoDescripcion.setText("Descripción del paquete");
 
-        txtDescripcionPaquete.setBackground(new java.awt.Color(255, 255, 255));
         txtDescripcionPaquete.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        txtDescripcionPaquete.setForeground(new java.awt.Color(0, 0, 0));
         txtDescripcionPaquete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDescripcionPaqueteActionPerformed(evt);
@@ -102,23 +151,35 @@ public class PanelRegistro extends javax.swing.JFrame {
         lblTextoTipoEnvio.setForeground(new java.awt.Color(11, 29, 58));
         lblTextoTipoEnvio.setText("Tipo de envío");
 
-        jcbTipoEnvio.setBackground(new java.awt.Color(255, 255, 255));
         jcbTipoEnvio.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jcbTipoEnvio.setForeground(new java.awt.Color(255, 255, 255));
         jcbTipoEnvio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbTipoEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbTipoEnvioActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(11, 29, 58));
         jLabel7.setText("Peso (kg)");
 
-        txtPeso.setBackground(new java.awt.Color(255, 255, 255));
         txtPeso.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
-        txtPeso.setForeground(new java.awt.Color(0, 0, 0));
+        txtPeso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesoActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(245, 166, 35));
         btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnRegistrar.setForeground(new java.awt.Color(11, 29, 58));
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setBackground(new java.awt.Color(229, 231, 235));
         btnLimpiar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
@@ -221,6 +282,11 @@ public class PanelRegistro extends javax.swing.JFrame {
         btnEliminar.setMaximumSize(new java.awt.Dimension(100, 100));
         btnEliminar.setMinimumSize(new java.awt.Dimension(90, 90));
         btnEliminar.setPreferredSize(new java.awt.Dimension(130, 35));
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setBackground(new java.awt.Color(16, 185, 129));
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -341,11 +407,86 @@ public class PanelRegistro extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescripcionPaqueteActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
+int fila = tblPaquetes.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(null, "Seleccione una fila para editar");
+        return;
+    }
+
+    if (txtDescripcionPaquete.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Digite la descripción del paquete");
+        txtDescripcionPaquete.requestFocus();
+        return;
+    }
+
+    if (txtPeso.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Digite el peso del paquete");
+        txtPeso.requestFocus();
+        return;
+    }
+
+    double peso;
+
+    try {
+        peso = Double.parseDouble(txtPeso.getText());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "El peso debe ser numérico");
+        txtPeso.requestFocus();
+        return;
+    }
+
+    int codigo = Integer.parseInt(tblPaquetes.getValueAt(fila, 0).toString());
+
+    boolean editado = lista.editar(
+            codigo,
+            txtDescripcionPaquete.getText(),
+            jcbTipoEnvio.getSelectedItem().toString(),
+            peso
+    );
+
+    if (editado) {
+        mostrarTabla();
+        limpiarCampos();
+        JOptionPane.showMessageDialog(null, "Paquete editado correctamente");
+    } else {
+        JOptionPane.showMessageDialog(null, "No se pudo editar el paquete");
+    }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+String textoCodigo = JOptionPane.showInputDialog("Digite el código a buscar");
+
+    if (textoCodigo == null || textoCodigo.equals("")) {
+        return;
+    }
+
+    int codigo;
+
+    try {
+        codigo = Integer.parseInt(textoCodigo);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "El código debe ser numérico");
+        return;
+    }
+
+    Paquete p = lista.buscar(codigo);
+
+    if (p != null) {
+        txtDescripcionPaquete.setText(p.getDescripcion());
+        jcbTipoEnvio.setSelectedItem(p.getTipoEnvio());
+        txtPeso.setText(String.valueOf(p.getPeso()));
+
+        JOptionPane.showMessageDialog(null,
+                "Paquete encontrado\n\n"
+                + "Código: " + p.getCodigo()
+                + "\nDescripción: " + p.getDescripcion()
+                + "\nTipo de envío: " + p.getTipoEnvio()
+                + "\nPeso: " + p.getPeso()
+                + "\nEstado: " + p.getEstado());
+    } else {
+        JOptionPane.showMessageDialog(null, "No se encontró el paquete");
+    }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
@@ -356,10 +497,82 @@ public class PanelRegistro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-       txtDescripcionPaquete.setText("");
-       jcbTipoEnvio.setSelectedIndex(0);
-       txtPeso.setText("");
+                                         
+    limpiarCampos();
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void jcbTipoEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbTipoEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbTipoEnvioActionPerformed
+
+    private void txtPesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesoActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+if (txtDescripcionPaquete.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Digite la descripción del paquete");
+        txtDescripcionPaquete.requestFocus();
+        return;
+    }
+
+    if (txtPeso.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Digite el peso del paquete");
+        txtPeso.requestFocus();
+        return;
+    }
+
+    double peso;
+
+    try {
+        peso = Double.parseDouble(txtPeso.getText());
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "El peso debe ser numérico");
+        txtPeso.requestFocus();
+        return;
+    }
+
+    if (lista.existeCodigo(codigoAuto)) {
+        JOptionPane.showMessageDialog(null, "El código ya existe");
+        return;
+    }
+
+    Paquete p = new Paquete();
+    p.setCodigo(codigoAuto);
+    p.setDescripcion(txtDescripcionPaquete.getText());
+    p.setTipoEnvio(jcbTipoEnvio.getSelectedItem().toString());
+    p.setPeso(peso);
+    p.setEstado("Registrado");
+
+    lista.insertar(p);
+    codigoAuto++;
+
+    mostrarTabla();
+    limpiarCampos();
+
+    JOptionPane.showMessageDialog(null, "Paquete registrado correctamente");
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+int fila = tblPaquetes.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(null, "Seleccione una fila para eliminar");
+        return;
+    }
+
+    int codigo = Integer.parseInt(tblPaquetes.getValueAt(fila, 0).toString());
+
+    boolean eliminado = lista.eliminar(codigo);
+
+    if (eliminado) {
+        mostrarTabla();
+        limpiarCampos();
+        JOptionPane.showMessageDialog(null, "Paquete eliminado correctamente");
+    } else {
+        JOptionPane.showMessageDialog(null, "No se pudo eliminar el paquete");
+    }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
