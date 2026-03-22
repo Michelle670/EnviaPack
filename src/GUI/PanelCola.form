@@ -176,7 +176,7 @@
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="193" max="-2" attributes="0"/>
+                              <Component id="btnPasarCola" min="-2" pref="193" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
@@ -194,7 +194,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="193" max="-2" attributes="0"/>
+                              <Component id="btnEnviar" min="-2" pref="193" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
@@ -230,8 +230,8 @@
                                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="jLabel9" alignment="1" pref="50" max="32767" attributes="0"/>
-                                          <Component id="jButton1" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="jButton2" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="btnEnviar" alignment="1" max="32767" attributes="0"/>
+                                          <Component id="btnPasarCola" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jLabel5" max="32767" attributes="0"/>
                                       </Group>
@@ -296,7 +296,7 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnEnviar">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="f6" green="82" red="3b" type="rgb"/>
@@ -309,8 +309,11 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Desencolar - Enviar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnPasarCola">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="81" green="b9" red="10" type="rgb"/>
@@ -323,6 +326,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Trasladar de Pila a Cola "/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPasarColaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>

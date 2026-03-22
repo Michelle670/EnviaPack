@@ -1,20 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class Paquete {
+
+    //==========================================================================
+    //ATRIBUTO
+    //==========================================================================
     private int codigo;
     private String descripcion;
     private String tipoEnvio;
     private double peso;
     private String estado;
 
+    //==========================================================================
+    //CONSTRUCTOR
+    //==========================================================================
     public Paquete() {
         this.codigo = 0;
         this.descripcion = "";
@@ -31,6 +34,9 @@ public class Paquete {
         this.estado = estado;
     }
 
+    //==========================================================================
+    // GET Y SET
+    //==========================================================================
     public int getCodigo() {
         return codigo;
     }

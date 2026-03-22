@@ -1,19 +1,27 @@
 
 package GUI;
 
+import estructuras.Nodo;
+import sistema.SistemaEnviaPack;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import modelo.Paquete;
 
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class PanelCola extends javax.swing.JFrame {
-
+private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelCola
      */
-    public PanelCola() {
+    public PanelCola(SistemaEnviaPack sistema) {
         initComponents();
+        this.sistema = sistema;
+         
+        setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
         
             //para el color de columnas y filas de la tabla jtlPquetes
@@ -30,6 +38,7 @@ public class PanelCola extends javax.swing.JFrame {
            return this;
     }
 });
+        actualizarTabla();
     }
 
     /**
@@ -48,8 +57,8 @@ public class PanelCola extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEnviar = new javax.swing.JButton();
+        btnPasarCola = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -99,15 +108,25 @@ public class PanelCola extends javax.swing.JFrame {
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-correcta.png"))); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(59, 130, 246));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Desencolar - Enviar");
+        btnEnviar.setBackground(new java.awt.Color(59, 130, 246));
+        btnEnviar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnEnviar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEnviar.setText("Desencolar - Enviar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(16, 185, 129));
-        jButton2.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Trasladar de Pila a Cola ");
+        btnPasarCola.setBackground(new java.awt.Color(16, 185, 129));
+        btnPasarCola.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnPasarCola.setForeground(new java.awt.Color(255, 255, 255));
+        btnPasarCola.setText("Trasladar de Pila a Cola ");
+        btnPasarCola.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPasarColaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(11, 29, 58));
@@ -185,7 +204,7 @@ public class PanelCola extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnPasarCola, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,7 +219,7 @@ public class PanelCola extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addGap(25, 25, 25)
@@ -229,8 +248,8 @@ public class PanelCola extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnPasarCola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -370,6 +389,74 @@ public class PanelCola extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
+    private void btnPasarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarColaActionPerformed
+        Paquete p = sistema.getPila().pop();
+
+        if (p != null) {
+            sistema.getCola().encolar(p);
+            JOptionPane.showMessageDialog(this, "Paquete movido a la cola");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay paquetes en la pila");
+        }
+        actualizarTabla();
+    }//GEN-LAST:event_btnPasarColaActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        Paquete p = sistema.getCola().desencolar();
+
+        if (p != null) {
+            JOptionPane.showMessageDialog(this, "Enviado: " + p.getCodigo());
+        } else {
+            JOptionPane.showMessageDialog(this, "Cola vacía");
+        }
+        actualizarTabla();
+    }//GEN-LAST:event_btnEnviarActionPerformed
+    private void actualizarTabla() {
+
+    DefaultTableModel modelo = (DefaultTableModel) tblPaquetes.getModel();
+    modelo.setRowCount(0);
+
+    Nodo aux = sistema.getCola().getInicio();
+
+    int contador = 0;
+    double pesoTotal = 0;
+
+    while (aux != null) {
+
+        Paquete p = aux.getElemento();
+
+        modelo.addRow(new Object[]{
+            p.getCodigo(),
+            p.getDescripcion(),
+            p.getTipoEnvio(),
+            p.getPeso()
+        });
+
+        contador++;
+        pesoTotal += p.getPeso();
+
+        aux = aux.getSiguiente();
+    }
+
+    lblPaquetes.setText(String.valueOf(contador));
+    lblPesoTotal.setText(String.valueOf(pesoTotal));
+
+    if (sistema.getCola().getInicio() != null) {
+        lblFrente.setText(
+            sistema.getCola().getInicio().getElemento().getCodigo()
+        );
+    } else {
+        lblFrente.setText("Vacío");
+    }
+    
+    if (sistema.getCola().getFin() != null) {
+        lblFinal.setText(
+            sistema.getCola().getFin().getElemento().getCodigo()
+        );
+    } else {
+        lblFinal.setText("Vacío");
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -400,15 +487,16 @@ public class PanelCola extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelCola().setVisible(true);
+                SistemaEnviaPack sistema = new SistemaEnviaPack();
+                new PanelCola(sistema).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnPasarCola;
     private javax.swing.JButton btnVolverMenu;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

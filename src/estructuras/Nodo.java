@@ -1,21 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package estructuras;
 import modelo.Paquete;
+
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class Nodo {
+    //==========================================================================
+    //ATRIBUTO
+    //==========================================================================
     private Paquete dato;
     private Nodo siguiente;
 
+    
+    //==========================================================================
+    //CONSTRUCTOR
+    //==========================================================================
     public Nodo() {
         this.siguiente = null;
     }
 
+        //==========================================================================
+    // GET Y SET
+    //==========================================================================
     public Paquete getDato() {
         return dato;
     }
