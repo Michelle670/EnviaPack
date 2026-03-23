@@ -8,34 +8,30 @@ import modelo.Paquete;
  */
 public class Cola {
 
-    private Nodo inicio;
-    private Nodo fin;
+    private NodoCola inicio;
+    private NodoCola fin;
 
     public Cola() {
         this.inicio = null;
         this.fin = null;
     }
 
-    public Nodo getInicio() {
+    public NodoCola getInicio() {
         return inicio;
     }
 
-    public Nodo getFin() {
+    public NodoCola getFin() {
         return fin;
     }
 
     public boolean vacia() {
-        if (inicio == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return inicio == null;
     }
 
     public void encolar(Paquete p) {
 
-        Nodo nuevo = new Nodo();
-        nuevo.setElemento(p);
+        NodoCola nuevo = new NodoCola();
+        nuevo.setDato(p);
 
         if (vacia()) {
             inicio = nuevo;
@@ -49,7 +45,7 @@ public class Cola {
     public Paquete desencolar() {
         if (!vacia()) {
 
-            Paquete p = inicio.getElemento();
+            Paquete p = inicio.getDato();
             inicio = inicio.getSiguiente();
 
             if (inicio == null) {
@@ -69,11 +65,11 @@ public class Cola {
         }
 
         String s = " ";
-        Nodo aux = inicio;
+        NodoCola aux = inicio;
 
         while (aux != null) {
 
-            Paquete p = aux.getElemento();
+            Paquete p = aux.getDato();
 
             s += "Código: " + p.getCodigo()
                     + " | Descripción: " + p.getDescripcion()
@@ -90,7 +86,7 @@ public class Cola {
     public int cantidad() {
 
         int cont = 0;
-        Nodo aux = inicio;
+        NodoCola aux = inicio;
 
         while (aux != null) {
             cont++;
@@ -103,10 +99,10 @@ public class Cola {
     public double pesoTotal() {
 
         double total = 0;
-        Nodo aux = inicio;
+        NodoCola aux = inicio;
 
         while (aux != null) {
-            total += aux.getElemento().getPeso();
+            total += aux.getDato().getPeso();
             aux = aux.getSiguiente();
         }
 

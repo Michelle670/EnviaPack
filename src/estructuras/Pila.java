@@ -38,7 +38,7 @@ public class Pila {
             cima = cima.getSiguiente();
         }
     }
-    
+
     //Método para mostar
     public String mostrar() {
         String s = "";
@@ -50,6 +50,15 @@ public class Pila {
         }
 
         return s;
+    }
+
+    public Paquete desapilarRetornando() {
+        if (!vacia()) {
+            Paquete p = cima.getDato();
+            cima = cima.getSiguiente();
+            return p;
+        }
+        return null;
     }
 
 }

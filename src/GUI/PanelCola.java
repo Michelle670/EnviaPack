@@ -1,7 +1,7 @@
 
 package GUI;
 
-import estructuras.Nodo;
+import estructuras.NodoCola;
 import sistema.SistemaEnviaPack;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -20,6 +20,7 @@ private SistemaEnviaPack sistema;
     public PanelCola(SistemaEnviaPack sistema) {
         initComponents();
         this.sistema = sistema;
+        
          
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
@@ -390,7 +391,7 @@ private SistemaEnviaPack sistema;
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnPasarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarColaActionPerformed
-        Paquete p = sistema.getPila().pop();
+        Paquete p = sistema.getPila().desapilarRetornando();
 
         if (p != null) {
             sistema.getCola().encolar(p);
@@ -416,14 +417,14 @@ private SistemaEnviaPack sistema;
     DefaultTableModel modelo = (DefaultTableModel) tblPaquetes.getModel();
     modelo.setRowCount(0);
 
-    Nodo aux = sistema.getCola().getInicio();
+    NodoCola aux = sistema.getCola().getInicio();
 
     int contador = 0;
     double pesoTotal = 0;
 
     while (aux != null) {
 
-        Paquete p = aux.getElemento();
+        Paquete p = aux.getDato();
 
         modelo.addRow(new Object[]{
             p.getCodigo(),
@@ -442,17 +443,17 @@ private SistemaEnviaPack sistema;
     lblPesoTotal.setText(String.valueOf(pesoTotal));
 
     if (sistema.getCola().getInicio() != null) {
-        lblFrente.setText(
-            sistema.getCola().getInicio().getElemento().getCodigo()
-        );
+        lblFrente.setText(String.valueOf(
+            sistema.getCola().getInicio().getDato().getCodigo()
+        ));
     } else {
         lblFrente.setText("Vacío");
     }
     
     if (sistema.getCola().getFin() != null) {
-        lblFinal.setText(
-            sistema.getCola().getFin().getElemento().getCodigo()
-        );
+        lblFinal.setText(String.valueOf(
+            sistema.getCola().getFin().getDato().getCodigo()
+        ));
     } else {
         lblFinal.setText("Vacío");
     }

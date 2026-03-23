@@ -14,7 +14,7 @@ public class SistemaEnviaPack {
 
     public SistemaEnviaPack() {
         cola = new Cola();
-        pila = new Pila(); // esta vacía por ahora
+        pila = new Pila(); 
     }
 
     public Cola getCola() {

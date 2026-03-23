@@ -296,14 +296,14 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnDesencolarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesencolarActionPerformed
-        PanelCola c = new PanelCola();
+        PanelCola c = new PanelCola(sistema);
         c.setVisible(true);
         c.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnDesencolarActionPerformed
 
     private void btnVerColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerColaActionPerformed
-        PanelCola c = new PanelCola();
+        PanelCola c = new PanelCola(sistema);
         c.setVisible(true);
         c.setLocationRelativeTo(null);
         this.dispose();
@@ -345,7 +345,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerPaquetesActionPerformed
 
     private void btnTrasladarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrasladarActionPerformed
-        PanelCola c = new PanelCola();
+        PanelCola c = new PanelCola(sistema);
         c.setVisible(true);
         c.setLocationRelativeTo(null);
         this.dispose();

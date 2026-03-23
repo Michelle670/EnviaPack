@@ -1,3 +1,4 @@
+
 package estructuras;
 
 import modelo.Paquete;
@@ -6,24 +7,26 @@ import modelo.Paquete;
  * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
  * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
-public class Nodo {
-
+public class NodoCola {
     //==========================================================================
     //ATRIBUTO
     //==========================================================================
     private Paquete dato;
-    private Nodo siguiente;
-
+    private NodoCola siguiente;
+    
     //==========================================================================
     //CONSTRUCTOR
     //==========================================================================
-    public Nodo() {
+
+    public NodoCola() {
+        this.dato = null;
         this.siguiente = null;
     }
 
     //==========================================================================
     // GET Y SET
     //==========================================================================
+
     public Paquete getDato() {
         return dato;
     }
@@ -32,11 +35,14 @@ public class Nodo {
         this.dato = dato;
     }
 
-    public Nodo getSiguiente() {
+    public NodoCola getSiguiente() {
         return siguiente;
     }
 
-    public void setSiguiente(Nodo siguiente) {
+    public void setSiguiente(NodoCola siguiente) {
         this.siguiente = siguiente;
     }
+    
 }
+
+
