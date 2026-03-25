@@ -12,12 +12,11 @@ import sistema.SistemaEnviaPack;
  * @author soloa
  */
 public class PanelMenu extends javax.swing.JFrame {
-    private SistemaEnviaPack sistema;
+   private SistemaEnviaPack sistema = new SistemaEnviaPack();
     /**
      * Creates new form PanelMenu
      */
-    public PanelMenu(SistemaEnviaPack sistema) {
-        this.sistema = sistema;
+    public PanelMenu() {
         initComponents();
         setTitle("EnviaPack - Menú Principal");
         setSize(950, 650);
@@ -397,8 +396,7 @@ public class PanelMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                 SistemaEnviaPack sistema = new SistemaEnviaPack();
-            new PanelMenu(sistema).setVisible(true);
+                new PanelMenu().setVisible(true);
             }
         });
     }
