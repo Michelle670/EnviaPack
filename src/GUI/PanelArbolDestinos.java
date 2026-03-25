@@ -2,6 +2,7 @@ package GUI;
 
 
 import javax.swing.ImageIcon;
+import sistema.SistemaEnviaPack;
 
 /*
 
@@ -14,7 +15,7 @@ import javax.swing.ImageIcon;
  * @author soloa
  */
 public class PanelArbolDestinos extends javax.swing.JFrame {
-
+    private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelArbolDestinos
      */
@@ -477,7 +478,7 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbDestinosActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        PanelMenu m = new PanelMenu();
+        PanelMenu m = new PanelMenu(sistema);
         m.setVisible(true);
         m.setLocationRelativeTo(null);
         this.dispose();

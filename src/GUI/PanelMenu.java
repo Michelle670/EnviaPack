@@ -5,17 +5,19 @@
 package GUI;
 
 import javax.swing.ImageIcon;
+import sistema.SistemaEnviaPack;
 
 /**
  *
  * @author soloa
  */
 public class PanelMenu extends javax.swing.JFrame {
-
+    private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelMenu
      */
-    public PanelMenu() {
+    public PanelMenu(SistemaEnviaPack sistema) {
+        this.sistema = sistema;
         initComponents();
         setTitle("EnviaPack - Menú Principal");
         setSize(950, 650);
@@ -395,7 +397,8 @@ public class PanelMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelMenu().setVisible(true);
+                 SistemaEnviaPack sistema = new SistemaEnviaPack();
+            new PanelMenu(sistema).setVisible(true);
             }
         });
     }

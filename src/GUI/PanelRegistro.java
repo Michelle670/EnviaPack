@@ -6,11 +6,13 @@ import estructuras.ListaEnlazada;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Paquete;
+import sistema.SistemaEnviaPack;
 /**
  *
  * @author soloa
  */
 public class PanelRegistro extends javax.swing.JFrame {
+    private SistemaEnviaPack sistema;
     private ListaEnlazada lista = new ListaEnlazada();
     private int codigoAuto = 1;
     /**
@@ -490,7 +492,7 @@ String textoCodigo = JOptionPane.showInputDialog("Digite el código a buscar");
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        PanelMenu m = new PanelMenu();
+        PanelMenu m = new PanelMenu(sistema);
         m.setVisible(true);
         m.setLocationRelativeTo(null);
         this.dispose();

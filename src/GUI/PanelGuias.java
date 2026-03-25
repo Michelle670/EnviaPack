@@ -5,13 +5,14 @@
 package GUI;
 
 import javax.swing.ImageIcon;
+import sistema.SistemaEnviaPack;
 
 /**
  *
  * @author soloa
  */
 public class PanelGuias extends javax.swing.JFrame {
-
+    private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelGuias
      */
@@ -278,7 +279,7 @@ public class PanelGuias extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        PanelMenu m = new PanelMenu();
+        PanelMenu m = new PanelMenu(sistema);
         m.setVisible(true);
         m.setLocationRelativeTo(null);
         this.dispose();

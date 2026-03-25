@@ -4,12 +4,14 @@ package GUI;
 import javax.swing.ImageIcon;
 import estructuras.Pila;
 import modelo.Paquete;
+import sistema.SistemaEnviaPack;
 
 /**
  *
  * @author soloa
  */
 public class PanelPila extends javax.swing.JFrame {
+    private SistemaEnviaPack sistema;
     Pila pila = new Pila();
 
     /**
@@ -333,7 +335,7 @@ public class PanelPila extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        PanelMenu m = new PanelMenu();
+        PanelMenu m = new PanelMenu(sistema);
         m.setVisible(true);
         m.setLocationRelativeTo(null);
         this.dispose();

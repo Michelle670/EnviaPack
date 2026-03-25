@@ -5,13 +5,14 @@
 package GUI;
 
 import javax.swing.ImageIcon;
+import sistema.SistemaEnviaPack;
 
 /**
  *
  * @author soloa
  */
 public class PanelBienvenida extends javax.swing.JFrame {
-
+    private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelBienvenida
      */
@@ -76,7 +77,7 @@ public class PanelBienvenida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-       new PanelMenu().setVisible(true);
+       new PanelMenu(sistema).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIngresarActionPerformed
 

@@ -384,7 +384,7 @@ private SistemaEnviaPack sistema;
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverMenuActionPerformed
-        PanelMenu m = new PanelMenu();
+        PanelMenu m = new PanelMenu(sistema);
         m.setVisible(true);
         m.setLocationRelativeTo(null);
         this.dispose();
