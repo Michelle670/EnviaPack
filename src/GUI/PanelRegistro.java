@@ -1,6 +1,7 @@
-
+//==============================================================================
+// IMPORTES
+//==============================================================================
 package GUI;
-
 import javax.swing.ImageIcon;
 import estructuras.ListaEnlazada;
 import javax.swing.JOptionPane;
@@ -8,18 +9,21 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Paquete;
 import sistema.SistemaEnviaPack;
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class PanelRegistro extends javax.swing.JFrame {
     private SistemaEnviaPack sistema;
-    private ListaEnlazada lista = new ListaEnlazada();
-    private int codigoAuto = 1;
+    private ListaEnlazada lista;
+    private int codigoAuto;
     /**
      * Creates new form PanelRegistro
      */
-    public PanelRegistro() {
+    public PanelRegistro(SistemaEnviaPack sistema) {
         initComponents();
+        this.sistema = sistema;
+        this.lista = sistema.getLista();
+        this.codigoAuto = sistema.getCodigoAuto();
         tblPaquetes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cargarCamposDesdeTabla();
@@ -33,7 +37,7 @@ public class PanelRegistro extends javax.swing.JFrame {
         jcbTipoEnvio.addItem("Internacional");
 
         DefaultTableModel modeloTabla = (DefaultTableModel) tblPaquetes.getModel();
-        modeloTabla.setRowCount(0);
+       // modeloTabla.setRowCount(0);
         //para el color de columnas y filas de la tabla jtláquetes
         javax.swing.table.JTableHeader header = tblPaquetes.getTableHeader();
         header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
@@ -48,6 +52,7 @@ public class PanelRegistro extends javax.swing.JFrame {
            return this;
     }
 });
+        mostrarTabla();
     }
     public void limpiarCampos() {
     txtDescripcionPaquete.setText("");
@@ -548,6 +553,7 @@ if (txtDescripcionPaquete.getText().equals("")) {
 
     lista.insertar(p);
     codigoAuto++;
+    sistema.incrementarCodigo();
 
     mostrarTabla();
     limpiarCampos();
@@ -606,7 +612,7 @@ int fila = tblPaquetes.getSelectedRow();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelRegistro().setVisible(true);
+              new PanelRegistro(new SistemaEnviaPack()).setVisible(true);
             }
         });
     }

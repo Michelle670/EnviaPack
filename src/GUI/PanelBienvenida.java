@@ -1,9 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package GUI;
 
+package GUI;
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
 
@@ -18,6 +14,10 @@ public class PanelBienvenida extends javax.swing.JFrame {
      */
     public PanelBienvenida() {
         initComponents();
+        sistema = new SistemaEnviaPack();
+        //INSTANCIA DE LOS DATOS DE PRUEBA
+        sistema = new SistemaEnviaPack();
+        sistema.cargarDatosPrueba();
         setSize(950, 650);
         setResizable(false);
         setLocationRelativeTo(null);

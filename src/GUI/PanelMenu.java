@@ -1,22 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+//==============================================================================
+// IMPORTES
+//==============================================================================
 package GUI;
-
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
-
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class PanelMenu extends javax.swing.JFrame {
    private SistemaEnviaPack sistema = new SistemaEnviaPack();
     /**
      * Creates new form PanelMenu
      */
-    public PanelMenu() {
+    public PanelMenu(SistemaEnviaPack sistema) {
+        this.sistema = sistema;
         initComponents();
         setTitle("EnviaPack - Menú Principal");
         setSize(950, 650);
@@ -24,9 +22,8 @@ public class PanelMenu extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
         getContentPane().setBackground(new java.awt.Color(240, 242, 245));
-        
         getContentPane().setLayout(null); 
-//para que los btn fueron iguales en forma
+        //para que los btn fueron iguales en forma
         btnRegistrar.setBounds(50, 200, 400, 45);
         btnVerPaquetes.setBounds(490, 200, 400, 45);
         btnApilar.setBounds(50, 255, 400, 45);
@@ -311,14 +308,14 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVerColaActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        PanelRegistro r = new PanelRegistro();
+        PanelRegistro r = new PanelRegistro(sistema);
         r.setVisible(true);
         r.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnApilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApilarActionPerformed
-        PanelPila p = new PanelPila();
+        PanelPila p = new PanelPila(sistema);
         p.setVisible(true);
         p.setLocationRelativeTo(null);
         this.dispose();
@@ -339,7 +336,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDistribucionActionPerformed
 
     private void btnVerPaquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerPaquetesActionPerformed
-        PanelRegistro r = new PanelRegistro();
+        PanelRegistro r = new PanelRegistro(sistema);
         r.setVisible(true);
         r.setLocationRelativeTo(null);
         this.dispose();
@@ -396,7 +393,7 @@ public class PanelMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelMenu().setVisible(true);
+                new PanelMenu(new SistemaEnviaPack()).setVisible(true);
             }
         });
     }

@@ -1,28 +1,35 @@
-
+//==============================================================================
+// IMPORTES
+//==============================================================================
 package GUI;
-
 import javax.swing.ImageIcon;
 import estructuras.Pila;
 import modelo.Paquete;
 import sistema.SistemaEnviaPack;
-
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
-public class PanelPila extends javax.swing.JFrame {
+public class PanelPila extends javax.swing.JFrame 
+{
     private SistemaEnviaPack sistema;
-    Pila pila = new Pila();
-
+    private Pila pila;
+    private estructuras.ListaEnlazada lista;
     /**
      * Creates new form PanelPila
      */
-    public PanelPila() {
+    public PanelPila(SistemaEnviaPack sistema) 
+    {
         initComponents();
+        this.sistema = sistema;
+        this.pila = sistema.getPila();
+        this.lista = sistema.getLista();
+        //PARA EL ICON DE LA PANTALLA
         setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
-             //para el color de columnas y filas de la tabla jtlPquetes
+        //para el color de columnas y filas de la tabla jtlPquetes
         javax.swing.table.JTableHeader header = tblPaquetes.getTableHeader();
-        header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
+        header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() 
+        {
        @Override
        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -34,9 +41,53 @@ public class PanelPila extends javax.swing.JFrame {
            return this;
     }
 });
+    //METODOS  AUX   
+    cargarCombo();
+    mostrarPila();
+    actualizarInfo();
+      
   
     }
-
+ //=============================================================================   
+    public void cargarCombo() 
+    {
+    jComboBox1.removeAllItems();
+    for (int i = 0; i < lista.cantidad(); i++) 
+    {
+        modelo.Paquete p = lista.obtenerPorPosicion(i);
+        if (p.getEstado().equals("Registrado")) 
+        {
+            jComboBox1.addItem(p.getCodigo() + " — " + p.getDescripcion() + " (" + p.getPeso() + " kg)");
+        }
+    }
+   }
+//==============================================================================
+public void mostrarPila() 
+{
+    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tblPaquetes.getModel();
+    modelo.setRowCount(0);
+    for (int i = 0; i < pila.cantidad(); i++) 
+    {
+        Paquete p = pila.obtenerPorPosicion(i);
+        Object[] fila = {p.getCodigo(), p.getDescripcion(), p.getTipoEnvio(), p.getPeso()};
+        modelo.addRow(fila);
+    }
+}
+//==============================================================================
+public void actualizarInfo() 
+{
+    Paquete tope = pila.verCima();
+    if (tope != null) 
+    {
+        lblTope.setText(tope.getCodigo() + " — " + tope.getDescripcion());
+    } else
+    {
+        lblTope.setText("(vacío)");
+    }
+    lblCantidad.setText(String.valueOf(pila.cantidad()));
+    lblPeso.setText(String.valueOf(pila.pesoTotal()));
+}
+//==============================================================================
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -342,19 +393,55 @@ public class PanelPila extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnDesapilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesapilarActionPerformed
-        // TODO add your handling code here:
-        pila.desapilar();
+        Paquete p = pila.desapilarRetornando();
+        if (p != null) 
+        {
+            p.setEstado("Desapilado");
+            mostrarPila();
+            actualizarInfo();
+            cargarCombo();
+            javax.swing.JOptionPane.showMessageDialog(this, "Paquete desapilado:\n" + p.getCodigo() + " — " + p.getDescripcion());
+        } else 
+        {
+            javax.swing.JOptionPane.showMessageDialog(this, "La pila está vacía");
+        }
+        
     }//GEN-LAST:event_btnDesapilarActionPerformed
 
     private void btnApilarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApilarActionPerformed
-        // TODO add your handling code here:
-        Paquete p = new Paquete();
-        pila.apilar(p);
+            if (jComboBox1.getItemCount() == 0) 
+            {
+           javax.swing.JOptionPane.showMessageDialog(this, "No hay paquetes disponibles para apilar");
+           return;
+            }
+            String item = jComboBox1.getSelectedItem().toString();
+            int codigo = Integer.parseInt(item.split(" — ")[0].trim());
+            Paquete p = lista.buscar(codigo);
+            if (p != null) 
+            {
+                p.setEstado("En Pila");
+                pila.apilar(p);
+                cargarCombo();
+                mostrarPila();
+                actualizarInfo();
+                javax.swing.JOptionPane.showMessageDialog(this, "Paquete apilado correctamente");
+            }
     }//GEN-LAST:event_btnApilarActionPerformed
 
     private void btnVerTopeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerTopeActionPerformed
-        // TODO add your handling code here:
-        pila.mostrar();
+      Paquete p = pila.verCima();
+        if (p != null) 
+        {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Tope de la Pila:\n\n" +
+                "Código: " + p.getCodigo() +
+                "\nDescripción: " + p.getDescripcion() +
+                "\nTipo: " + p.getTipoEnvio() +
+                "\nPeso: " + p.getPeso() + " kg");
+        } else 
+        {
+            javax.swing.JOptionPane.showMessageDialog(this, "La pila está vacía");
+        }
     }//GEN-LAST:event_btnVerTopeActionPerformed
 
     /**
@@ -387,7 +474,7 @@ public class PanelPila extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelPila().setVisible(true);
+               new PanelPila(new SistemaEnviaPack()).setVisible(true);
             }
         });
     }

@@ -1,13 +1,13 @@
-
+//==============================================================================
+// IMPORTES
+//==============================================================================
 package GUI;
-
 import estructuras.NodoCola;
 import sistema.SistemaEnviaPack;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.Paquete;
-
 /**
  * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
  * Sofia Loaiza PROYECTO_EnvíaPACK:

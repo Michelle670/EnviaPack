@@ -60,5 +60,46 @@ public class Pila {
         }
         return null;
     }
+    
+    
+    public Paquete verCima() {
+    if (!vacia()) {
+        return cima.getDato();
+    }
+    return null;
+}
+
+public int cantidad() {
+    int cont = 0;
+    NodoPila aux = cima;
+    while (aux != null) {
+        cont++;
+        aux = aux.getSiguiente();
+    }
+    return cont;
+}
+
+public double pesoTotal() {
+    double total = 0;
+    NodoPila aux = cima;
+    while (aux != null) {
+        total += aux.getDato().getPeso();
+        aux = aux.getSiguiente();
+    }
+    return total;
+}
+
+public Paquete obtenerPorPosicion(int posicion) {
+    int i = 0;
+    NodoPila aux = cima;
+    while (aux != null) {
+        if (i == posicion) {
+            return aux.getDato();
+        }
+        i++;
+        aux = aux.getSiguiente();
+    }
+    return null;
+}
 
 }
