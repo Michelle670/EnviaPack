@@ -1,5 +1,6 @@
 package sistema;
 
+import estructuras.ArbolBinarioBusqueda;
 import estructuras.Cola;
 import estructuras.ListaEnlazada;
 import estructuras.Pila;
@@ -14,31 +15,44 @@ public class SistemaEnviaPack
     private ListaEnlazada lista;
     private Cola cola;
     private Pila pila;
+    private ArbolBinarioBusqueda arbolDestinos;
     private int codigoAuto = 1;
 
-    public SistemaEnviaPack() {
+    public SistemaEnviaPack() 
+    {
         lista = new ListaEnlazada();
         cola = new Cola();
         pila = new Pila();
+        arbolDestinos = new ArbolBinarioBusqueda();
     }
 
-    public ListaEnlazada getLista() {
+    public ListaEnlazada getLista() 
+    {
         return lista;
     }
 
-    public Cola getCola() {
+    public Cola getCola() 
+    {
         return cola;
     }
 
-    public Pila getPila() {
+    public Pila getPila() 
+    {
         return pila;
     }
 
-    public int getCodigoAuto() {
+    public int getCodigoAuto() 
+    {
         return codigoAuto;
     }
 
-    public void incrementarCodigo() {
+    public ArbolBinarioBusqueda getArbolDestinos() 
+    {
+        return arbolDestinos;
+    }
+    
+    public void incrementarCodigo()
+    {
         codigoAuto++;
     }
     //==========================================================================
@@ -92,5 +106,12 @@ public class SistemaEnviaPack
     for (int i = 0; i < 5; i++) {
         incrementarCodigo();
     }
+    
+    // Destinos de prueba
+    arbolDestinos.insertar("Heredia");
+    arbolDestinos.insertar("Alajuela");
+    arbolDestinos.insertar("San José");
+    arbolDestinos.insertar("Cartago");
+    arbolDestinos.insertar("Limón");
 }
 }

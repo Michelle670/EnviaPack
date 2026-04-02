@@ -83,6 +83,7 @@ private SistemaEnviaPack sistema;
         jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cola");
 
         jPanel1.setBackground(new java.awt.Color(240, 242, 245));
 
@@ -391,26 +392,26 @@ private SistemaEnviaPack sistema;
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnPasarColaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarColaActionPerformed
-        Paquete p = sistema.getPila().desapilarRetornando();
-
-        if (p != null) {
-            sistema.getCola().encolar(p);
-            JOptionPane.showMessageDialog(this, "Paquete movido a la cola");
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay paquetes en la pila");
-        }
-        actualizarTabla();
+     Paquete p = sistema.getPila().desapilarRetornando();
+     if (p != null) {
+         p.setEstado("En Cola");
+         sistema.getCola().encolar(p);
+         actualizarTabla();
+         JOptionPane.showMessageDialog(this, "Paquete trasladado a la cola:\n" + p.getCodigo() + " — " + p.getDescripcion());
+     } else {
+         JOptionPane.showMessageDialog(this, "No hay paquetes en la pila");
+}
     }//GEN-LAST:event_btnPasarColaActionPerformed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         Paquete p = sistema.getCola().desencolar();
-
         if (p != null) {
-            JOptionPane.showMessageDialog(this, "Enviado: " + p.getCodigo());
+            p.setEstado("Desencolado");
+            actualizarTabla();
+            JOptionPane.showMessageDialog(this, "Paquete desencolado:\n" + p.getCodigo() + " — " + p.getDescripcion());
         } else {
-            JOptionPane.showMessageDialog(this, "Cola vacía");
+            JOptionPane.showMessageDialog(this, "La cola está vacía");
         }
-        actualizarTabla();
     }//GEN-LAST:event_btnEnviarActionPerformed
     private void actualizarTabla() {
 

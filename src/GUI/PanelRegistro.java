@@ -123,6 +123,7 @@ public class PanelRegistro extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registro de Paquetes");
 
         jPanel1.setBackground(new java.awt.Color(240, 242, 245));
         jPanel1.setForeground(new java.awt.Color(240, 242, 245));

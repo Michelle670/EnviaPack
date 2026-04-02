@@ -1,11 +1,16 @@
 package GUI;
-
-
+//==============================================================================
+//IMPORTES
+//==============================================================================
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
-
+import estructuras.ArbolBinarioBusqueda;
+import estructuras.NodoArbol;
+import modelo.Paquete;
+import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 /*
-
 package GUI;
 
 import javax.swing.ImageIcon;
@@ -16,32 +21,48 @@ import javax.swing.ImageIcon;
  */
 public class PanelArbolDestinos extends javax.swing.JFrame {
     private SistemaEnviaPack sistema;
+    private ArbolBinarioBusqueda arbol;
+    private estructuras.ListaEnlazada lista;
     /**
      * Creates new form PanelArbolDestinos
      */
-    public PanelArbolDestinos() {
-        initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
-        //para el scroll bar
-        setSize(1000, 1000);
-        setResizable(false);
-        setLocationRelativeTo(null);
+   // Constructor vacío 
+public PanelArbolDestinos() {
+    initComponents();
+}
 
-        javax.swing.JPanel contenido = (javax.swing.JPanel) getContentPane();
-        contenido.setPreferredSize(new java.awt.Dimension(950, 1100));
 
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane();
-        scroll.setViewportView(contenido);
-        scroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        scroll.setBorder(null);
+public PanelArbolDestinos(SistemaEnviaPack sistema) {
+    initComponents();
+    this.sistema = sistema;
+    this.arbol = sistema.getArbolDestinos();
+    this.lista = sistema.getLista();
+    
+    setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
+    
+    cargarComboPaquetes();
+    cargarComboDestinos();
+    actualizarJTree();
+    lblResultado.setText("");
+    txtRecorrido.setEditable(false);
+    
+    setSize(1000, 1000);
+    setResizable(false);
+    setLocationRelativeTo(null);
 
-        getContentPane().setLayout(new java.awt.BorderLayout());
-        setContentPane(scroll);
-        
-        
-    }
+    javax.swing.JPanel contenido = (javax.swing.JPanel) getContentPane();
+    contenido.setPreferredSize(new java.awt.Dimension(950, 1100));
+
+    javax.swing.JScrollPane scroll = new javax.swing.JScrollPane();
+    scroll.setViewportView(contenido);
+    scroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    scroll.getVerticalScrollBar().setUnitIncrement(16);
+    scroll.setBorder(null);
+
+    getContentPane().setLayout(new java.awt.BorderLayout());
+    setContentPane(scroll);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -75,7 +96,7 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtDestino = new javax.swing.JTextField();
-        btnInserrtar = new javax.swing.JButton();
+        btnInsertar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -127,6 +148,11 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar ");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         lblResultado.setForeground(new java.awt.Color(0, 0, 0));
         lblResultado.setText("jLabel8");
@@ -153,9 +179,9 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(26, 26, 26)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(30, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +193,7 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(7, 7, 7)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,16 +211,31 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
         btnEnOrden.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnEnOrden.setForeground(new java.awt.Color(255, 255, 255));
         btnEnOrden.setText("EnOrden ");
+        btnEnOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnOrdenActionPerformed(evt);
+            }
+        });
 
         btnPreOrden.setBackground(new java.awt.Color(11, 29, 58));
         btnPreOrden.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnPreOrden.setForeground(new java.awt.Color(255, 255, 255));
         btnPreOrden.setText("PreOrden ");
+        btnPreOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreOrdenActionPerformed(evt);
+            }
+        });
 
         btnPostOrden.setBackground(new java.awt.Color(11, 29, 58));
         btnPostOrden.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnPostOrden.setForeground(new java.awt.Color(255, 255, 255));
         btnPostOrden.setText("PostOrden ");
+        btnPostOrden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPostOrdenActionPerformed(evt);
+            }
+        });
 
         txtRecorrido.setBackground(new java.awt.Color(255, 255, 255));
         txtRecorrido.setColumns(20);
@@ -252,10 +293,15 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
             }
         });
 
-        btnInserrtar.setBackground(new java.awt.Color(245, 166, 35));
-        btnInserrtar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
-        btnInserrtar.setForeground(new java.awt.Color(11, 29, 58));
-        btnInserrtar.setText("Insertar");
+        btnInsertar.setBackground(new java.awt.Color(245, 166, 35));
+        btnInsertar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
+        btnInsertar.setForeground(new java.awt.Color(11, 29, 58));
+        btnInsertar.setText("Insertar");
+        btnInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -272,7 +318,7 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(txtDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnInserrtar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -285,7 +331,7 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnInserrtar, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                    .addComponent(btnInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -303,6 +349,11 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
         btnClasificar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnClasificar.setForeground(new java.awt.Color(255, 255, 255));
         btnClasificar.setText("Clasificar ");
+        btnClasificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClasificarActionPerformed(evt);
+            }
+        });
 
         cmbPaquetes.setBackground(new java.awt.Color(255, 255, 255));
         cmbPaquetes.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
@@ -484,6 +535,89 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
+    private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
+        String destino = txtDestino.getText().trim();
+        if (destino.equals("")) {
+            JOptionPane.showMessageDialog(this, "Digite el nombre del destino");
+            txtDestino.requestFocus();
+            return;
+        }
+        if (arbol.buscarDestino(destino) != null) {
+            JOptionPane.showMessageDialog(this, "El destino ya existe");
+            return;
+        }
+        arbol.insertar(destino);
+        cargarComboDestinos();
+        actualizarJTree();
+        txtDestino.setText("");
+        JOptionPane.showMessageDialog(this, "Destino insertado: " + destino);
+    }//GEN-LAST:event_btnInsertarActionPerformed
+
+    private void btnClasificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasificarActionPerformed
+        if (cmbPaquetes.getItemCount() == 0) 
+        {
+            JOptionPane.showMessageDialog(this, "No hay paquetes disponibles para clasificar");
+            return;
+        }
+        if (cmbDestinos.getItemCount() == 0) 
+        {
+            JOptionPane.showMessageDialog(this, "No hay destinos registrados");
+            return;
+        }
+        String itemPaquete = cmbPaquetes.getSelectedItem().toString();
+        int codigo = Integer.parseInt(itemPaquete.split(" — ")[0].trim());
+        String destino = cmbDestinos.getSelectedItem().toString();
+
+        Paquete p = lista.buscar(codigo);
+        if (p != null) 
+        {
+            arbol.agregarPaquete(destino, p);
+            p.setEstado("Clasificado");
+            cargarComboPaquetes();
+            actualizarJTree();
+            JOptionPane.showMessageDialog(this, "Paquete clasificado en: " + destino);
+        }
+    }//GEN-LAST:event_btnClasificarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String destino = txtBuscar.getText().trim();
+        if (destino.equals("")) 
+        {
+            JOptionPane.showMessageDialog(this, "Digite el destino a buscar");
+            txtBuscar.requestFocus();
+            return;
+        }
+        String resultado = arbol.buscarPaquetesPorDestino(destino);
+        lblResultado.setText(resultado);
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEnOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnOrdenActionPerformed
+        if (arbol.vacio()) 
+        {
+        txtRecorrido.setText("El árbol está vacío");
+        return;
+        }
+    txtRecorrido.setText("EnOrden:\n" + arbol.recorrerEnOrden());
+    }//GEN-LAST:event_btnEnOrdenActionPerformed
+
+    private void btnPreOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreOrdenActionPerformed
+        if (arbol.vacio()) 
+        {
+        txtRecorrido.setText("El árbol está vacío");
+        return;
+        }
+    txtRecorrido.setText("PreOrden:\n" + arbol.recorrerPreOrden());
+    }//GEN-LAST:event_btnPreOrdenActionPerformed
+
+    private void btnPostOrdenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPostOrdenActionPerformed
+            if (arbol.vacio()) 
+            {
+        txtRecorrido.setText("El árbol está vacío");
+        return;
+           }
+    txtRecorrido.setText("PostOrden:\n" + arbol.recorrerPostOrden());
+    }//GEN-LAST:event_btnPostOrdenActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -518,12 +652,80 @@ public class PanelArbolDestinos extends javax.swing.JFrame {
             }
         });
     }
+  //============================================================================
+  //METODOS AUX 
+  //============================================================================
+  //****************************************************************************
+  //============================================================================
+  // METODO CARGAR COMBO PAQUETES
+  //
+  //============================================================================
+    public void cargarComboPaquetes() 
+    {
+    cmbPaquetes.removeAllItems();
+    for (int i = 0; i < lista.cantidad(); i++) {
+        Paquete p = lista.obtenerPorPosicion(i);
+        if (p.getEstado().equals("Desencolado")) {
+            cmbPaquetes.addItem(p.getCodigo() + " — " + p.getDescripcion());
+        }
+    }
+}
+  //============================================================================
+  // METODO CARGAR COMBO DESTINOS
+  //
+  //============================================================================
+    public void cargarComboDestinos() 
+    {
+        cmbDestinos.removeAllItems();
+        String[] destinos = arbol.obtenerDestinos();
+        for (int i = 0; i < destinos.length; i++) 
+        {
+            cmbDestinos.addItem(destinos[i]);
+        }
+    }
+  //============================================================================
+  // METODO ACTUALIZAR JTREE
+  //
+  //============================================================================
+    public void actualizarJTree() 
+    {
+        DefaultMutableTreeNode raizTree = new DefaultMutableTreeNode("Destinos EnviaPack");
+        agregarNodosAlTree(arbol.getRaiz(), raizTree);
+        jTree.setModel(new DefaultTreeModel(raizTree));
+        // Expandir todos los nodos
+        for (int i = 0; i < jTree.getRowCount(); i++) 
+        {
+            jTree.expandRow(i);
+        }
+    }
+  //============================================================================
+  // METODO AGREGAR NODOS AL JTREE
+  //
+  //============================================================================
+    private void agregarNodosAlTree(NodoArbol nodo, DefaultMutableTreeNode padre) 
+    {
+        if (nodo == null) return;
+
+        DefaultMutableTreeNode nodoTree = new DefaultMutableTreeNode(nodo.getDestino() + " (" + nodo.getPaquetes().cantidad() + " paq.)");
+
+        // Agregar paquetes como hijos
+        for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) 
+        {
+            Paquete p = nodo.getPaquetes().obtenerPorPosicion(i);
+            nodoTree.add(new DefaultMutableTreeNode("EP-" + p.getCodigo() + " " + p.getDescripcion()));
+        }
+
+        padre.add(nodoTree);
+
+        agregarNodosAlTree(nodo.getEnlaceIzq(), padre);
+        agregarNodosAlTree(nodo.getEnlaceDer(), padre);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnClasificar;
     private javax.swing.JButton btnEnOrden;
-    private javax.swing.JButton btnInserrtar;
+    private javax.swing.JButton btnInsertar;
     private javax.swing.JButton btnPostOrden;
     private javax.swing.JButton btnPreOrden;
     private javax.swing.JButton btnVolverMenu;

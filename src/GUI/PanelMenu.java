@@ -64,6 +64,7 @@ public class PanelMenu extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menú Principal");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(240, 242, 245));
@@ -322,7 +323,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnApilarActionPerformed
 
     private void btnClasificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasificarActionPerformed
-        PanelArbolDestinos a = new PanelArbolDestinos();
+        PanelArbolDestinos a = new PanelArbolDestinos(sistema);
         a.setVisible(true);
         a.setLocationRelativeTo(null);
         this.dispose();
