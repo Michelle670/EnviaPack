@@ -565,18 +565,28 @@ public PanelArbolDestinos(SistemaEnviaPack sistema) {
             return;
         }
         String itemPaquete = cmbPaquetes.getSelectedItem().toString();
-        int codigo = Integer.parseInt(itemPaquete.split(" — ")[0].trim());
+        int codigo = Integer.parseInt(itemPaquete.split(" - ")[0].trim());
         String destino = cmbDestinos.getSelectedItem().toString();
 
         Paquete p = lista.buscar(codigo);
-        if (p != null) 
-        {
-            arbol.agregarPaquete(destino, p);
-            p.setEstado("Clasificado");
-            cargarComboPaquetes();
-            actualizarJTree();
-            JOptionPane.showMessageDialog(this, "Paquete clasificado en: " + destino);
-        }
+
+if (p != null) 
+{
+    boolean agregado = arbol.agregarPaquete(destino, p);
+
+    if (agregado) {
+        p.setEstado("Clasificado");
+        cargarComboPaquetes();
+        actualizarJTree();
+        JOptionPane.showMessageDialog(this, "Paquete clasificado en: " + destino);
+    } else {
+        JOptionPane.showMessageDialog(this, "No se pudo agregar el paquete al árbol");
+    }
+}
+else
+{
+    JOptionPane.showMessageDialog(this, "No se encontró el paquete");
+}
     }//GEN-LAST:event_btnClasificarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -658,15 +668,17 @@ public PanelArbolDestinos(SistemaEnviaPack sistema) {
   //****************************************************************************
   //============================================================================
   // METODO CARGAR COMBO PAQUETES
-  //
+  //CAMBIOS AQUI!!!!!!!!!!!!!!!!!!!!!
   //============================================================================
     public void cargarComboPaquetes() 
     {
     cmbPaquetes.removeAllItems();
-    for (int i = 0; i < lista.cantidad(); i++) {
-        Paquete p = lista.obtenerPorPosicion(i);
-        if (p.getEstado().equals("Desencolado")) {
-            cmbPaquetes.addItem(p.getCodigo() + " — " + p.getDescripcion());
+
+    for (int i = 0; i < sistema.getLista().cantidad(); i++) {
+        Paquete p = sistema.getLista().obtenerPorPosicion(i);
+
+        if (p.getEstado().equalsIgnoreCase("Desencolado")) {
+            cmbPaquetes.addItem(p.getCodigo() + " - " + p.getDescripcion());
         }
     }
 }

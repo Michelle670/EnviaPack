@@ -5,6 +5,7 @@ import estructuras.Cola;
 import estructuras.ListaEnlazada;
 import estructuras.Pila;
 import modelo.Paquete;
+import estructuras.ListaGuias;
 
 /**
  * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
@@ -17,6 +18,7 @@ public class SistemaEnviaPack
     private Pila pila;
     private ArbolBinarioBusqueda arbolDestinos;
     private int codigoAuto = 1;
+    private ListaGuias listaGuias;
 
     public SistemaEnviaPack() 
     {
@@ -24,6 +26,7 @@ public class SistemaEnviaPack
         cola = new Cola();
         pila = new Pila();
         arbolDestinos = new ArbolBinarioBusqueda();
+        listaGuias = new ListaGuias();
     }
 
     public ListaEnlazada getLista() 
@@ -49,6 +52,11 @@ public class SistemaEnviaPack
     public ArbolBinarioBusqueda getArbolDestinos() 
     {
         return arbolDestinos;
+    }
+    
+    public ListaGuias getListaGuias()
+    {
+       return listaGuias;
     }
     
     public void incrementarCodigo()
@@ -113,5 +121,13 @@ public class SistemaEnviaPack
     arbolDestinos.insertar("San José");
     arbolDestinos.insertar("Cartago");
     arbolDestinos.insertar("Limón");
+    
+    //Destinos de prueba con paquetes 
+    arbolDestinos.agregarPaquete("Heredia", p1);
+    arbolDestinos.agregarPaquete("Alajuela", p2);
+    arbolDestinos.agregarPaquete("San José", p3);
+    arbolDestinos.agregarPaquete("Cartago", p4);
+    arbolDestinos.agregarPaquete("Limón", p5);
 }
+    
 }

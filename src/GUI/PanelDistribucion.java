@@ -124,7 +124,6 @@ public class PanelDistribucion extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(107, 114, 128));
         jLabel1.setText("Paquete con guía");
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -132,28 +131,24 @@ public class PanelDistribucion extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(107, 114, 128));
         jLabel5.setText("Dirección de entrega ");
 
-        txtDireccion.setBackground(new java.awt.Color(255, 255, 255));
         txtDireccion.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(107, 114, 128));
         jLabel6.setText("Nombre del repartidor o empresa transportista");
 
-        txtNombreRepartidor.setBackground(new java.awt.Color(255, 255, 255));
         txtNombreRepartidor.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(107, 114, 128));
         jLabel7.setText("Ciudad de entrega");
 
-        txtCiudad.setBackground(new java.awt.Color(255, 255, 255));
         txtCiudad.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(107, 114, 128));
         jLabel8.setText("Fecha estimada de entrega");
 
-        txtFecha.setBackground(new java.awt.Color(255, 255, 255));
         txtFecha.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         btnAsignarDistribucion.setBackground(new java.awt.Color(245, 166, 35));
@@ -232,11 +227,9 @@ public class PanelDistribucion extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Actualizar Estado del Paquete ");
 
-        jComboBox2.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox2.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox3.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox3.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 

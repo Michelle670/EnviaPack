@@ -9,7 +9,7 @@ import sistema.SistemaEnviaPack;
  * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class PanelMenu extends javax.swing.JFrame {
-   private SistemaEnviaPack sistema = new SistemaEnviaPack();
+   private SistemaEnviaPack sistema;
     /**
      * Creates new form PanelMenu
      */
@@ -351,7 +351,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTrasladarActionPerformed
 
     private void btnGuiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiasActionPerformed
-        PanelGuias g = new PanelGuias();
+        PanelGuias g = new PanelGuias(sistema);
         g.setVisible(true);
         g.setLocationRelativeTo(null);
         this.dispose();
@@ -394,7 +394,9 @@ public class PanelMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelMenu(new SistemaEnviaPack()).setVisible(true);
+                SistemaEnviaPack sistema = new SistemaEnviaPack();  
+                sistema.cargarDatosPrueba();
+                new PanelMenu(sistema).setVisible(true);
             }
         });
     }

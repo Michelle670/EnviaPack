@@ -6,6 +6,12 @@ package GUI;
 
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
+import javax.swing.table.DefaultTableModel;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
+import modelo.GuiaEnvio;
+import modelo.Paquete;
+import sistema.SistemaEnviaPack;
 
 /**
  *
@@ -13,13 +19,115 @@ import sistema.SistemaEnviaPack;
  */
 public class PanelGuias extends javax.swing.JFrame {
     private SistemaEnviaPack sistema;
+    private int numeroGuiaAuto = 1;
     /**
      * Creates new form PanelGuias
      */
-    public PanelGuias() {
+    
+   public void cargarComboPaquetes() {
+    cmbPaquetes.removeAllItems();
+    cargarComboDesdeArbol(sistema.getArbolDestinos().getRaiz());
+}
+   
+
+private void cargarComboDesdeArbol(estructuras.NodoArbol nodo) {
+    if (nodo != null) {
+        cargarComboDesdeArbol(nodo.getEnlaceIzq());
+
+        for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) {
+            Paquete p = nodo.getPaquetes().obtenerPorPosicion(i);
+            cmbPaquetes.addItem(nodo.getDestino() + " - " + p.getCodigo() + " - " + p.getDescripcion());
+        }
+
+        cargarComboDesdeArbol(nodo.getEnlaceDer());
+    }
+}
+    public void mostrarTablaGuias() {
+    DefaultTableModel modeloTabla = (DefaultTableModel) tblGuias.getModel();
+    modeloTabla.setRowCount(0);
+
+    for (int i = 0; i < sistema.getListaGuias().cantidad(); i++) {
+        GuiaEnvio g = sistema.getListaGuias().obtenerPorPosicion(i);
+
+        Object fila[] = new Object[6];
+        fila[0] = g.getNumeroGuia();
+        fila[1] = g.getDescripcion();
+        fila[2] = g.getTipoEnvio();
+        fila[3] = g.getCodigoSeguimiento();
+        fila[4] = g.getCiudadDestino();
+        fila[5] = g.getFechaGeneracion();
+
+        modeloTabla.addRow(fila);
+    }
+    
+    
+
+    jLabel2.setText(String.valueOf(sistema.getListaGuias().cantidad()));
+}
+    public Paquete buscarPaquetePorCodigo(int codigo) {
+    for (int i = 0; i < sistema.getLista().cantidad(); i++) {
+        Paquete p = sistema.getLista().obtenerPorPosicion(i);
+
+        if (p.getCodigo() == codigo) {
+            return p;
+        }
+    }
+    return null;
+}
+
+public Paquete buscarPaqueteEnArbolPorCodigo(estructuras.NodoArbol nodo, int codigo) {
+    if (nodo == null) {
+        return null;
+    }
+
+    for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) {
+        Paquete p = nodo.getPaquetes().obtenerPorPosicion(i);
+        if (p.getCodigo() == codigo) {
+            return p;
+        }
+    }
+
+    Paquete encontradoIzq = buscarPaqueteEnArbolPorCodigo(nodo.getEnlaceIzq(), codigo);
+    if (encontradoIzq != null) {
+        return encontradoIzq;
+    }
+
+    return buscarPaqueteEnArbolPorCodigo(nodo.getEnlaceDer(), codigo);
+}
+
+public String buscarDestinoDePaquete(estructuras.NodoArbol nodo, int codigo) {
+    if (nodo == null) {
+        return "";
+    }
+
+    for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) {
+        Paquete p = nodo.getPaquetes().obtenerPorPosicion(i);
+        if (p.getCodigo() == codigo) {
+            return nodo.getDestino();
+        }
+    }
+
+    String destinoIzq = buscarDestinoDePaquete(nodo.getEnlaceIzq(), codigo);
+    if (!destinoIzq.equals("")) {
+        return destinoIzq;
+    }
+
+    return buscarDestinoDePaquete(nodo.getEnlaceDer(), codigo);
+} 
+    
+    
+    public PanelGuias(SistemaEnviaPack sistema) {
         initComponents();
+        this.sistema = sistema;
          setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
+         
+         DefaultTableModel modeloTabla = (DefaultTableModel) tblGuias.getModel();
+         modeloTabla.setRowCount(0);
+
+         cargarComboPaquetes();
+         mostrarTablaGuias();
         
+         
             //para el color de columnas y filas de la tabla jtlPquetes
         javax.swing.table.JTableHeader header = tblGuias.getTableHeader();
         header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
@@ -33,6 +141,7 @@ public class PanelGuias extends javax.swing.JFrame {
            setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(26, 58, 92)));
            return this;
     }
+       
 });
     }
 
@@ -89,7 +198,6 @@ public class PanelGuias extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(107, 114, 128));
         jLabel6.setText("Seleccionar paquete clasificado");
 
-        cmbPaquetes.setBackground(new java.awt.Color(255, 255, 255));
         cmbPaquetes.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         cmbPaquetes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -97,6 +205,11 @@ public class PanelGuias extends javax.swing.JFrame {
         btnGenararGuia.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnGenararGuia.setForeground(new java.awt.Color(11, 29, 58));
         btnGenararGuia.setText("Generar Guía ");
+        btnGenararGuia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenararGuiaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,13 +249,17 @@ public class PanelGuias extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(11, 29, 58));
         jLabel7.setText("Consultar Guías");
 
-        txtBuscar.setBackground(new java.awt.Color(255, 255, 255));
         txtBuscar.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
 
         btnBuscar.setBackground(new java.awt.Color(11, 29, 58));
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 13)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(107, 114, 128));
@@ -285,6 +402,65 @@ public class PanelGuias extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
+    private void btnGenararGuiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenararGuiaActionPerformed
+if (cmbPaquetes.getSelectedItem() == null) {
+    JOptionPane.showMessageDialog(null, "No hay paquetes clasificados");
+    return;
+}
+
+String seleccionado = cmbPaquetes.getSelectedItem().toString();
+String partes[] = seleccionado.split(" - ");
+int codigoPaquete = Integer.parseInt(partes[1]);
+
+Paquete p = buscarPaqueteEnArbolPorCodigo(sistema.getArbolDestinos().getRaiz(), codigoPaquete);
+String destino = buscarDestinoDePaquete(sistema.getArbolDestinos().getRaiz(), codigoPaquete);
+
+if (p == null) {
+    JOptionPane.showMessageDialog(null, "No se encontró el paquete");
+    return;
+}
+
+GuiaEnvio guia = new GuiaEnvio();
+guia.setNumeroGuia(numeroGuiaAuto);
+guia.setDescripcion(p.getDescripcion());
+guia.setTipoEnvio(p.getTipoEnvio());
+guia.setCodigoSeguimiento("SEG-" + p.getCodigo() + "-" + numeroGuiaAuto);
+guia.setCiudadDestino(destino);
+guia.setFechaGeneracion(LocalDate.now().toString());
+
+sistema.getListaGuias().insertar(guia);
+numeroGuiaAuto++;
+
+mostrarTablaGuias();
+
+JOptionPane.showMessageDialog(null, "Guía generada correctamente");
+    // TODO add your handling code here:
+    }//GEN-LAST:event_btnGenararGuiaActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        if (txtBuscar.getText().equals("")) {
+        JOptionPane.showMessageDialog(null, "Digite el código de seguimiento");
+        txtBuscar.requestFocus();
+        return;
+    }
+
+    GuiaEnvio g = sistema.getListaGuias().buscarPorCodigoSeguimiento(txtBuscar.getText());
+
+    if (g != null) {
+        JOptionPane.showMessageDialog(null,
+                "Guía encontrada\n\n"
+                + "N° Guía: " + g.getNumeroGuia()
+                + "\nDescripción: " + g.getDescripcion()
+                + "\nTipo Envío: " + g.getTipoEnvio()
+                + "\nCódigo Seguimiento: " + g.getCodigoSeguimiento()
+                + "\nCiudad Destino: " + g.getCiudadDestino()
+                + "\nFecha Generación: " + g.getFechaGeneracion());
+    } else {
+        JOptionPane.showMessageDialog(null, "No se encontró la guía");
+    }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -315,7 +491,7 @@ public class PanelGuias extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelGuias().setVisible(true);
+                new PanelGuias(new SistemaEnviaPack()).setVisible(true);
             }
         });
     }
