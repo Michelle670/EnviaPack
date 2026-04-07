@@ -288,7 +288,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        PanelArbolDestinos a = new PanelArbolDestinos();
+        PanelArbolDestinos a = new PanelArbolDestinos(sistema);
         a.setVisible(true);
         a.setLocationRelativeTo(null);
         this.dispose();
