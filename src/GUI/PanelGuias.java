@@ -1,9 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package GUI;
 
+package GUI;
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
 import javax.swing.table.DefaultTableModel;
@@ -31,16 +27,21 @@ public class PanelGuias extends javax.swing.JFrame {
    
 
 private void cargarComboDesdeArbol(estructuras.NodoArbol nodo) {
-    if (nodo != null) {
+if (nodo != null) 
+{
         cargarComboDesdeArbol(nodo.getEnlaceIzq());
 
-        for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) {
+        for (int i = 0; i < nodo.getPaquetes().cantidad(); i++) 
+        {
             Paquete p = nodo.getPaquetes().obtenerPorPosicion(i);
-            cmbPaquetes.addItem(nodo.getDestino() + " - " + p.getCodigo() + " - " + p.getDescripcion());
+            if (p.getEstado().equals("Clasificado")) 
+            {
+                cmbPaquetes.addItem(nodo.getDestino() + " - " + p.getCodigo() + " - " + p.getDescripcion());
+            }
         }
 
         cargarComboDesdeArbol(nodo.getEnlaceDer());
-    }
+ }
 }
     public void mostrarTablaGuias() {
     DefaultTableModel modeloTabla = (DefaultTableModel) tblGuias.getModel();
@@ -428,17 +429,19 @@ guia.setCodigoSeguimiento("SEG-" + p.getCodigo() + "-" + numeroGuiaAuto);
 guia.setCiudadDestino(destino);
 guia.setFechaGeneracion(LocalDate.now().toString());
 
+p.setEstado("Con Guía");
 sistema.getListaGuias().insertar(guia);
 numeroGuiaAuto++;
 
 mostrarTablaGuias();
+cargarComboPaquetes();
 
 JOptionPane.showMessageDialog(null, "Guía generada correctamente");
-    // TODO add your handling code here:
+
     }//GEN-LAST:event_btnGenararGuiaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+
         if (txtBuscar.getText().equals("")) {
         JOptionPane.showMessageDialog(null, "Digite el código de seguimiento");
         txtBuscar.requestFocus();

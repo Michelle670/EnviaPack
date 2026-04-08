@@ -1,57 +1,86 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+//==============================================================================
+//IMPORTES
+//==============================================================================
 package GUI;
-
 import javax.swing.ImageIcon;
 import sistema.SistemaEnviaPack;
+import estructuras.ListaDistribucion;
+import modelo.Paquete;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
 public class PanelDistribucion extends javax.swing.JFrame {
     private SistemaEnviaPack sistema;
+    private ListaDistribucion listaDistribucion;
     /**
      * Creates new form PanelDistribucion
      */
-    public PanelDistribucion() {
-        initComponents();
-        setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
-          //para el color de columnas y filas de la tabla jtlPquetes
-        javax.swing.table.JTableHeader header = tblDistribucion.getTableHeader();
-        header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
-       @Override
-       public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-           super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-           setBackground(new java.awt.Color(11, 29, 58));
-           setForeground(java.awt.Color.WHITE);
-           setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
-           setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-           setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(26, 58, 92)));
-           return this;    
-    }
-});
-          
-        setSize(1000, 1200);
-        setResizable(false);
-        setLocationRelativeTo(null);
-
-        javax.swing.JPanel contenido = (javax.swing.JPanel) getContentPane();
-        contenido.setPreferredSize(new java.awt.Dimension(950, 900));
-
-        javax.swing.JScrollPane scroll = new javax.swing.JScrollPane();
-        scroll.setViewportView(contenido);
-        scroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
-        scroll.setBorder(null);
-
-        getContentPane().setLayout(new java.awt.BorderLayout());
-        setContentPane(scroll);   
-        
-    }
+   public PanelDistribucion(SistemaEnviaPack sistema) {
+    initComponents();
+    this.sistema = sistema;
+    this.listaDistribucion = sistema.getListaDistribucion();
+    
+    setIconImage(new ImageIcon(getClass().getResource("/img/icono_ventana_64.png")).getImage());
+    
+    // Cargar combo de paquetes con guía
+    cargarComboPaquetes();
+    
+    // Cuando selecciona un paquete, autocompleta la ciudad
+    jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            if (jComboBox1.getSelectedItem() != null) {
+                String item = jComboBox1.getSelectedItem().toString();
+                int codigo = Integer.parseInt(item.split(" — ")[0].trim());
+                Paquete p = sistema.getLista().buscar(codigo);
+                if (p != null) {
+                    txtCiudad.setText(p.getCiudadDestino());
+                }
+            }
+        }
+    });
+    
+    // Cargar combo de estados
+    jComboBox3.removeAllItems();
+    jComboBox3.addItem("Pendiente");
+    jComboBox3.addItem("En tránsito");
+    jComboBox3.addItem("Entregado");
+    
+    // Header de tabla
+    javax.swing.table.JTableHeader header = tblDistribucion.getTableHeader();
+    header.setDefaultRenderer(new javax.swing.table.DefaultTableCellRenderer() {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(javax.swing.JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            setBackground(new java.awt.Color(11, 29, 58));
+            setForeground(java.awt.Color.WHITE);
+            setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 12));
+            setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(26, 58, 92)));
+            return this;
+        }
+    });
+    
+    mostrarTabla();
+    cargarComboActualizar();
+    
+    setSize(1000, 700);
+    setResizable(false);
+    setLocationRelativeTo(null);
+    javax.swing.JPanel contenido = (javax.swing.JPanel) getContentPane();
+    contenido.setPreferredSize(new java.awt.Dimension(950, 900));
+    javax.swing.JScrollPane scroll = new javax.swing.JScrollPane();
+    scroll.setViewportView(contenido);
+    scroll.setVerticalScrollBarPolicy(javax.swing.JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+    scroll.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    scroll.getVerticalScrollBar().setUnitIncrement(16);
+    scroll.setBorder(null);
+    getContentPane().setLayout(new java.awt.BorderLayout());
+    setContentPane(scroll);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -372,11 +401,50 @@ public class PanelDistribucion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverMenuActionPerformed
 
     private void btnAsignarDistribucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarDistribucionActionPerformed
-        // TODO add your handling code here:
+           if (jComboBox1.getItemCount() == 0) {
+           JOptionPane.showMessageDialog(this, "No hay paquetes disponibles");
+           return;
+       }
+       if (txtCiudad.getText().equals("") || txtDireccion.getText().equals("") || 
+           txtFecha.getText().equals("") || txtNombreRepartidor.getText().equals("")) {
+           JOptionPane.showMessageDialog(this, "Complete todos los campos");
+           return;
+       }
+
+       String item = jComboBox1.getSelectedItem().toString();
+       int codigo = Integer.parseInt(item.split(" — ")[0].trim());
+
+       sistema.asignarDistribucion(codigo, txtCiudad.getText(), txtDireccion.getText(), 
+           txtFecha.getText(), txtNombreRepartidor.getText());
+
+       mostrarTabla();
+       cargarComboPaquetes();
+       cargarComboActualizar();
+       limpiarCampos();
+       JOptionPane.showMessageDialog(this, "Distribución asignada correctamente");   
     }//GEN-LAST:event_btnAsignarDistribucionActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
+         if (jComboBox2.getItemCount() == 0) 
+         {
+             JOptionPane.showMessageDialog(this, "No hay paquetes en distribución");
+             return;
+         }
+
+         String item = jComboBox2.getSelectedItem().toString();
+         int codigo = Integer.parseInt(item.split(" — ")[0].trim());
+         String nuevoEstado = jComboBox3.getSelectedItem().toString();
+
+         boolean actualizado = sistema.actualizarEstado(codigo, nuevoEstado);
+         if (actualizado) 
+         {
+             mostrarTabla();
+             cargarComboActualizar();
+             JOptionPane.showMessageDialog(this, "Estado actualizado a: " + nuevoEstado);
+         } else 
+         {
+             JOptionPane.showMessageDialog(this, "No se pudo actualizar");
+         }
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
@@ -409,9 +477,61 @@ public class PanelDistribucion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PanelDistribucion().setVisible(true);
+               new PanelDistribucion(new SistemaEnviaPack()).setVisible(true);
             }
         });
+    }
+    //METODOS AUXILIARES
+        public void cargarComboPaquetes() 
+        {
+        jComboBox1.removeAllItems();
+        estructuras.ListaEnlazada lista = sistema.getLista();
+        for (int i = 0; i < lista.cantidad(); i++) 
+        {
+            Paquete p = lista.obtenerPorPosicion(i);
+            if (p.getEstado().equals("Con Guía")) 
+            {
+                jComboBox1.addItem(p.getCodigo() + " — " + p.getDescripcion());
+            }
+        }
+    }
+
+    public void cargarComboActualizar() 
+    {
+        jComboBox2.removeAllItems();
+        for (int i = 0; i < listaDistribucion.cantidad(); i++) 
+        {
+            Paquete p = listaDistribucion.obtenerPorPosicion(i);
+            jComboBox2.addItem(p.getCodigo() + " — " + p.getDescripcion() + " (" + p.getEstado() + ")");
+        }
+    }
+
+    public void mostrarTabla() 
+    {
+        DefaultTableModel modelo = (DefaultTableModel) tblDistribucion.getModel();
+        modelo.setRowCount(0);
+        for (int i = 0; i < listaDistribucion.cantidad(); i++) {
+            Paquete p = listaDistribucion.obtenerPorPosicion(i);
+            Object[] fila = 
+            {
+                p.getCodigo(),
+                p.getDescripcion(),
+                p.getCiudadDestino(),
+                p.getDireccionEntrega(),
+                p.getNombreRepartidor(),
+                p.getFechaEstimadaEntrega(),
+                p.getEstado()
+            };
+            modelo.addRow(fila);
+        }
+    }
+
+    public void limpiarCampos() 
+    {
+        txtCiudad.setText("");
+        txtDireccion.setText("");
+        txtFecha.setText("");
+        txtNombreRepartidor.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

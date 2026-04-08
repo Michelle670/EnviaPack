@@ -576,6 +576,7 @@ if (p != null)
     boolean agregado = arbol.agregarPaquete(destino, p);
 
     if (agregado) {
+        p.setCiudadDestino(destino);
         p.setEstado("Clasificado");
         cargarComboPaquetes();
         actualizarJTree();

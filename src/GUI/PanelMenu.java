@@ -330,7 +330,7 @@ public class PanelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClasificarActionPerformed
 
     private void btnDistribucionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDistribucionActionPerformed
-        PanelDistribucion d = new PanelDistribucion();
+        PanelDistribucion d = new PanelDistribucion(sistema);
         d.setVisible(true);
         d.setLocationRelativeTo(null);
         this.dispose();

@@ -4,13 +4,15 @@
 package estructuras;
 import modelo.Paquete;
 /**
- *
- * @author soloa
+ * GRUPO 01 PARTICIPANTES: Genesis Delgado,Michelle Guerrero,Camila Marin y
+ * Sofia Loaiza PROYECTO_EnvíaPACK:
  */
-public class ListaEnlazada {
+public class ListaEnlazada 
+{
     private Nodo inicio;
 
-    public ListaEnlazada() {
+    public ListaEnlazada() 
+    {
         this.inicio = null;
     }
 
@@ -18,7 +20,8 @@ public class ListaEnlazada {
         return inicio == null;
     }
 
-    public void insertar(Paquete paquete) {
+    public void insertar(Paquete paquete) 
+    {
         Nodo nuevo = new Nodo();
         nuevo.setDato(paquete);
 
@@ -125,7 +128,14 @@ public class ListaEnlazada {
         return null;
     }
 
-    public Paquete buscarPorCodigo(int codigo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  public Paquete buscarPorCodigo(int codigo) {
+    Nodo aux = inicio;
+    while (aux != null) {
+        if (aux.getDato().getCodigo() == codigo) {
+            return aux.getDato();
+        }
+        aux = aux.getSiguiente();
     }
+    return null;
+} 
 }
